@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('horarios', function (Blueprint $table) {
+        Schema::create('work_summaries', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('empleado_id')->constrained()->onDelete('cascade');
-            $table->enum('dia_semana', ['lunes','martes','miercoles','jueves','viernes','sabado','domingo']);
-            $table->time('hora_entrada');
-            $table->time('hora_salida');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->date('work_date');
+            $table->integer('total_minutes_worked');
+            $table->integer('total_minutes_extra');
+            $table->enum('status', ['on_time', 'late', 'absent']);
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('horarios');
+        Schema::dropIfExists('work_summaries');
     }
 };

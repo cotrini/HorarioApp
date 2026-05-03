@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('empleados', function (Blueprint $table) {
+        Schema::create('attendance_records', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('departamento_id')->nullable()->constrained();
-            $table->string('documento_identidad')->unique();
-            $table->string('cargo');
-            $table->string('foto')->nullable();
-            $table->boolean('activo')->default(true);
+            $table->enum('type', ['entry', 'lunch_start', 'lunch_end','extra', 'exit']);
             $table->timestamps();
+            $table->string('photo_path', 255);
+            $table->decimal('latitude', 10, 8);
+            $table->decimal('longitude', 10, 8);
+            $table->string('notes', 255)->nullable();
         });
     }
 
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('empleados');
+        Schema::dropIfExists('attendance_records');
     }
 };
